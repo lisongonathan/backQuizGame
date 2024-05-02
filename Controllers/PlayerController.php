@@ -269,8 +269,6 @@ class PlayerController extends UserController
             );
         }
         
-       
-        
     }    
 
     function notification() {
