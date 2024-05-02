@@ -17,7 +17,7 @@ class Controller {
     }
 
     public function vue($vue, $data = array()) {
-        require_once 'Views/' . $vue .'.php';
+        require_once '/Views/' . $vue .'.php';
     }
 
     public function getRequestPost() {
