@@ -3,10 +3,10 @@ class Connexion
 {
     private static $instance;
     
-    private $host = 'localhost';
-    private $dbname = 'elmes_quiz';
-    private $user = 'root';
-    private $password = '';
+    private $host = 'mysql-elmes-quizz.alwaysdata.net';
+    private $dbname = 'elmes-quizz_bdd';
+    private $user = '355059';
+    private $password = 'mot2p@sse';
 
     protected $conn;
 
