@@ -122,17 +122,42 @@ class PlayerModel extends UserModel
 
     } 
 
+    function getPlayerById($id){
+        //Requette
+        $sql = "SELECT users.*
+            FROM users
+            WHERE users.id = ?
+        ";
+
+        //Traitement Requette
+        $this -> setRequest($sql);
+        $this -> setParams(array($id));
+        
+        //Traiment Resultat
+        $data = $this->getFindByParams();
+
+        if (count($data)) {
+            foreach ($data as $key => $value) {
+                $resultat = $value;
+            }
+
+            return $resultat;
+        } else {            
+            return FALSE;
+        }
+
+    } 
 
     /* UPDATE */
-    function changeSoldeProspect($solde) {
+    function changePhotoPlayer($data) {
         //Verifier le matricule et le mot de passe de l'agent
-        $sql = "UPDATE prospect 
-            SET prospect.solde=? 
-            WHERE prospect.id=?
+        $sql = "UPDATE users 
+            SET users.photo=? 
+            WHERE users.id=?
         ";
     
         //Data utilisateur
-        $this -> setParams(array($solde, $_SESSION['user']['id']));
+        $this -> setParams(array($data['photo'], $data['id']));
         $this -> setRequest($sql);
     
         //Data BD

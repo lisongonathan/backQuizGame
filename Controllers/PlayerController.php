@@ -284,4 +284,83 @@ class PlayerController extends UserController
     function notification() {
         $this->vue('retour');
     }
+
+    function avatar() {
+        if ($_FILES) {
+            $id = explode('_', $_FILES["photo"]["name"])[1];
+            $target_dir = __DIR__ . '/../Core/Images/';
+            $file_name = basename($_FILES["photo"]["name"]) . '.' . explode('/', $_FILES["photo"]["type"])[1];
+            $target_file = $target_dir . '' . $file_name;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            
+            if (in_array($imageFileType, array('jpg', 'jpeg', 'png', 'gin'))) {
+                if (!($_FILES["photo"]["size"] > 30000000)) {
+                    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
+                        $status = $this->bdd->changePhotoPlayer(array('id' => $id, 'photo' => 'http://172.20.10.3/backQuizGame/Core/Images/' . $file_name));
+                        
+                        if ($status) {
+                            $data = $this->bdd->getPlayerById($id);
+
+                            if ($data) { 
+                                $this->render(
+                                    array(
+                                        'status' => TRUE,
+                                        'reponse' => $data
+                                    )
+                                );
+                            } else {
+                                $this->render(
+                                    array(
+                                        'status' => FALSE,
+                                        'reponse' => "Tout ne s'est pas bien passé pendant le traitement de la requette"
+                                    )
+                                );
+                            }
+                            
+                        } else {                            
+                            $this->render(
+                                array(
+                                    'status' => FALSE,
+                                    'reponse' => 'Une erreur inattendue est survenu lors de stokage de la photo'
+                                )
+                            );
+                        }
+                    } else {
+                        $this->render(
+                            array(
+                                'status' => FALSE,
+                                'reponse' => "Erreur lors de l'enregistrement de la photo"
+                            )
+                        );
+                    }
+                    
+                } else {
+                    $this->render(
+                        array(
+                            'status' => FALSE,
+                            'reponse' => 'Le fichier est trop lourd : ' . $_FILES["photo"]["size"] . 'Ko'
+                        )
+                    );
+                }
+                
+            } else {
+                $this->render(
+                    array(
+                        'status' => FALSE,
+                        'reponse' => 'Desole seul les images sont autorisées'
+                    )
+                );
+            }
+             
+        } else {
+            $this->render(
+                array(
+                    'status' => FALSE,
+                    'reponse' => $_FILES
+                )
+            ); 
+        }        
+        
+    }
+
 }
