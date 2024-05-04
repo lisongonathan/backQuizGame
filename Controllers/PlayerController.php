@@ -15,6 +15,7 @@ class PlayerController extends UserController
         $data = $this->bdd->getPartiesUser($id);
         $gamesWin = 0;
         $gamesOver = 0;
+        $questions = array();
 
         if ($data) {
 
@@ -24,6 +25,15 @@ class PlayerController extends UserController
                 } else {
                     $gamesWin++;
                 }
+
+                $old_games = $this->bdd->getQuizzesPartie($parties['id']);
+
+                if ($old_games) {
+                    
+                    foreach ($old_games as $quiz) {
+                        $questions[] = $quiz;
+                    }
+                }
                 
             }
 
@@ -31,7 +41,7 @@ class PlayerController extends UserController
                 array(
                     'status' => TRUE,
                     'reponse' =>  array(
-                        'parties' => count($data),
+                        'questions' => $questions,
                         'win' => $gamesWin,
                         'lost' => $gamesOver,
                         'games'=> $data
@@ -43,7 +53,7 @@ class PlayerController extends UserController
                 array(
                     'status' => FALSE,
                     'reponse' =>  array(
-                        'parties' => 0,
+                        'questions' => $questions,
                         'win' => $gamesWin,
                         'lost' => $gamesOver,
                         'games'=> array()

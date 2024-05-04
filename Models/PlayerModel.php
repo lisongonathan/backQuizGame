@@ -96,6 +96,33 @@ class PlayerModel extends UserModel
 
     } 
 
+    function getQuizzesPartie($id){
+        //Requette
+        $sql = "SELECT historiques.*
+            FROM historiques
+            WHERE historiques.id_game = 1
+        ";
+
+        //Traitement Requette
+        $this -> setRequest($sql);
+        $this -> setParams(array($id));
+        
+        //Traiment Resultat
+        $data = $this->getFindByParams();
+
+        if (count($data)) {
+            foreach ($data as $key => $value) {
+                $resultat[] = $value;
+            }
+
+            return $resultat;
+        } else {            
+            return FALSE;
+        }
+
+    } 
+
+
     /* UPDATE */
     function changeSoldeProspect($solde) {
         //Verifier le matricule et le mot de passe de l'agent

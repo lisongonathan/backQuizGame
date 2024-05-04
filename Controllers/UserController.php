@@ -36,7 +36,7 @@ class UserController extends AppController
             $this->render(
                 array(
                     'status' => FALSE,
-                    'reponse' => 'E-mail : '.$reqData['e_mail'].' ou Mot de passe incorrecte : ' . $reqData['mdp']               
+                    'reponse' => 'E-mail ou Mot de passe incorrecte '               
                 )
             );
         }
