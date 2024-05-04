@@ -363,4 +363,54 @@ class PlayerController extends UserController
         
     }
 
+    function profile($user = array()) {
+
+        if ($user) {
+            $id = $user["id"];
+
+            foreach ($user as $key => $value) {
+                $status = $this->bdd->changeProfilePlayer($key, strtolower($value), $id);
+
+                if (!$status) {
+                    $this->render(
+                        array(
+                            'status' => FALSE,
+                            'reponse' =>  "Un probleme est survenu lors de l'enregistrement de cette information : " . $value
+                        )
+                    );
+
+                    break;
+                }
+                
+            }
+            
+            $data = $this->bdd->getPlayerById($id);
+
+            if ($data) { 
+                $this->render(
+                    array(
+                        'status' => TRUE,
+                        'reponse' => $data
+                    )
+                );
+            } else {
+                $this->render(
+                    array(
+                        'status' => FALSE,
+                        'reponse' => "Tout ne s'est pas bien passé pendant le traitement de la requette"
+                    )
+                );
+            }
+
+        } else {
+            $this->render(
+                array(
+                    'status' => FALSE,
+                    'reponse' =>  "Aucune information n'a été fournie"
+                )
+            );
+        }
+        
+    }
+
 }

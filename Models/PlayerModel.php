@@ -171,4 +171,27 @@ class PlayerModel extends UserModel
         }
         
     }
+
+    function changeProfilePlayer($champ, $valeur, $id) {
+        //Verifier le matricule et le mot de passe de l'agent
+        $sql = "UPDATE users 
+            SET users.". $champ ."=? 
+            WHERE users.id=?
+        ";
+    
+        //Data utilisateur
+        $this -> setParams(array($valeur, $id));
+        $this -> setRequest($sql);
+    
+        //Data BD
+        $result = $this -> setItem();
+
+        if ($result) {            
+            return TRUE;
+
+        } else {             
+            return FALSE;
+        }
+        
+    }
 }
