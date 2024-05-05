@@ -281,8 +281,13 @@ class PlayerController extends UserController
         
     }    
 
-    function notification() {
-        $this->vue('retour');
+    function notification($status = 'FELICITATION', $user = array('photo' => 'http://172.20.10.3/backQuizGame/Core/Images/player_6.jpeg', 'nom'  => 'LISONGO BAÏTA, Nathan'), $message="Votre compte a bien été crédité de 10000CDF en date du 05/05/2024. QuizGame vous souhaite bonne chance !!!") {
+        $data = array(
+            'status'  =>  $status,
+            'user'  =>  $user,
+            'message'  => $message
+        );
+        $this->vue('retour', $data);
     }
 
     function avatar() {
